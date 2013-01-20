@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/knockout");
+    @RenderSection("scripts", required: false)
+
+    <script src="~/ClientScripts/Client.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var vm = new PersonsViewModel();
+            ko.applyBindings(vm);
+
+            vm.get();
+        });
+
+    </script>
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>
