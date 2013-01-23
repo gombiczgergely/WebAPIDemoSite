@@ -30,9 +30,9 @@ namespace WebAPIDemo.Controllers
         }
 
         // GET api/values/5
-        public Person Get(int id)
+        public Person Get(string id)
         {
-            return Persons[id];
+            return Persons.First((item) => item.FirstName == id);
         }
 
         // POST api/values
@@ -44,11 +44,13 @@ namespace WebAPIDemo.Controllers
         // PUT api/values/5
         public void Put(int id, [FromBody]Person value)
         {
+            Persons[id] = value;
         }
 
         // DELETE api/values/5
         public void Delete(int id)
         {
+            Persons.RemoveAt(id);
         }
     }
 }

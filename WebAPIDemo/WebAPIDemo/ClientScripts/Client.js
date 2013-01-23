@@ -1,7 +1,8 @@
 ﻿
-function PersonViewModel(firstName, lastName) {
+function PersonViewModel(firstName, lastName, id) {
     this.firstName = ko.observable(firstName);
     this.lastName = ko.observable(lastName);
+    this.id = ko.observable(id);
 }
 
 function PersonsViewModel() {
@@ -21,7 +22,7 @@ function PersonsViewModel() {
                 {
                     200: function (data) {
                         $.each(data, function (key, value) {
-                            self.persons.push(new PersonViewModel(value.firstName, value.lastName));
+                            self.persons.push(new PersonViewModel(value.firstName, value.lastName, key));
                         });
                     }
                 }
@@ -49,8 +50,23 @@ function PersonsViewModel() {
     };
 
     self.remove = function (person) {
-
+        $.ajax({
+            url: "api/Values/" + person.id(),
+            type: "DELETE",
+            cache: false,
+            success: self.get
+        });
     };
 
-    self.update = function (person) { };
+    self.update = function (person) {
+        $.ajax({
+            url: "api/Values/" + person.id(),
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            type: "PUT",
+            cache: false,
+            data: ko.toJSON(person),
+            success: self.get
+        });
+    };
 }
